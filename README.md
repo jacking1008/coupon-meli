@@ -18,6 +18,19 @@ http://couponmeli-env-1.eba-8p9jm2i5.us-east-2.elasticbeanstalk.com/swagger-ui.h
 ```
 En la siguiente imagen se muestra un ejemplo de ejecución:
 
+```sh
+Se realizó la prueba con el siguiente body:
+{
+  "item_ids": [
+    "MCO509093160","MCO501668687","MCO500099080","MCO487719207","MCO515420765"
+  ],
+  "amount": 400000
+}
+```
+![](assets/swagger_prueba.png)
+
+Además de ello se quiso realizar una prueba con los datos indicados en el test, este se cubre con las pruebas unitarias en JUnit.
+![](assets/test_prueda.png)
 
 #### Coverage by Jacoco
 El coverage obtenido en la revisión del proyecto es de __% para su validación se hizo uso del plugin de maven para la revisión de código. En la siguiente imagen se encuentra el resultante:
