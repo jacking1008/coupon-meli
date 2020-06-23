@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.co.meli.coupon.dto.ReqBenefit;
-import com.co.meli.coupon.dto.ResBenefit;
+import com.co.meli.coupon.dto.ResGeneric;
+import com.co.meli.coupon.exception.MeliException;
 import com.co.meli.coupon.service.BenefitCalcutationService;
 
 @RestController
@@ -19,12 +20,13 @@ public class BenefitCouponController {
 	@Autowired BenefitCalcutationService service;
 	
 	@PostMapping
-	public ResponseEntity<ResBenefit> calculate(@RequestBody(required = true) ReqBenefit data) {
-		ResBenefit rta = service.calculate(data.getItem_ids(), data.getAmount());
-		if(rta != null) {
-			return new ResponseEntity<ResBenefit>(rta,HttpStatus.OK);
-		} else {
-			return new ResponseEntity<ResBenefit>(rta,HttpStatus.NOT_FOUND);
+	public ResponseEntity<ResGeneric> calculate(@RequestBody(required = true) ReqBenefit data) {
+		try {
+			ResGeneric rta = new ResGeneric(200,service.calculate(data.getItem_ids(), data.getAmount()));
+			return new ResponseEntity<ResGeneric>(rta,HttpStatus.OK);
+		} catch( MeliException e) {
+			ResGeneric rta = new ResGeneric(404,e.getMessage());
+			return new ResponseEntity<ResGeneric>(rta,HttpStatus.NOT_FOUND);
 		}
 		
 	}

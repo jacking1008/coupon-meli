@@ -1,8 +1,10 @@
 package com.co.meli.coupon.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,9 @@ import org.springframework.web.client.RestTemplate;
 import com.co.meli.coupon.dto.ItemMeli;
 import com.co.meli.coupon.dto.ResApiMeli;
 import com.co.meli.coupon.dto.ResBenefit;
+import com.co.meli.coupon.exception.ErrorMeli;
+import com.co.meli.coupon.exception.MeliException;
+import com.co.meli.coupon.items.DecisionTree;
 import com.co.meli.coupon.service.BenefitCalcutationService;
 import com.google.gson.Gson;
 
@@ -27,7 +32,7 @@ public class BenefitCalculationServiceImpl implements BenefitCalcutationService 
 	Gson gson = new Gson();
 	
 	@Override
-	public ResBenefit calculate(List<String> products, Double amount) {
+	public ResBenefit calculate(List<String> products, Double amount) throws MeliException {
 		List<ItemMeli> itemsPrices = getObject(products);
 		if(!itemsPrices.isEmpty()) {
 			//VALIDATION IF THE PRODUCT HAS A HIGHER VALUE
@@ -37,15 +42,14 @@ public class BenefitCalculationServiceImpl implements BenefitCalcutationService 
 				Double total = itemsPrices.stream().map(e -> e.getPrice()).reduce(0.0,Double::sum);
 				return new ResBenefit(items,total);
 			} else {
-				return null;
+				throw ErrorMeli.NO_RESPUESTA.throwError();
 			}
 		} else {
-			return null;
+			throw ErrorMeli.NO_RESPUESTA.throwError();
 		}
 	}
 	
-
-	private List<ItemMeli> getObject(List<String> id_products) {
+	private List<ItemMeli> getObject(List<String> id_products) throws MeliException {
 		StringBuilder urlFinal = new StringBuilder();
 		urlFinal.append(urlBaseApiMeli).append(urlItem).append("?ids=").append(id_products.stream().collect(Collectors.joining(",")));
 		ResponseEntity<ResApiMeli[]> service = restClient.exchange(urlFinal.toString(), HttpMethod.GET, null, ResApiMeli[].class);
@@ -55,9 +59,18 @@ public class BenefitCalculationServiceImpl implements BenefitCalcutationService 
 					.map( e -> new ItemMeli((String)e.getBody().get("id"),Double.valueOf((int)e.getBody().get("price"))))
 					.collect(Collectors.toList());
 		} else {
-			return Collections.emptyList();
+			throw ErrorMeli.LISTA_ERRONEA.throwError();
 		}
    
+	}
+	
+	private void getItems(List<ItemMeli> items) {
+		List<DecisionTree> decTree = new ArrayList<DecisionTree>();
+		for(ItemMeli item: items) {
+			DecisionTree tree = new DecisionTree();
+			item.
+		}
+        
 	}
 	
 }
