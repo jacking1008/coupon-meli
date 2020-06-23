@@ -1,10 +1,8 @@
 package com.co.meli.coupon.service.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -30,17 +28,23 @@ public class BenefitCalculationServiceImpl implements BenefitCalcutationService 
 	public static final String urlItem = "items";
 	RestTemplate restClient = new RestTemplate();
 	Gson gson = new Gson();
+	List<ItemMeli> itemsTemp = List.of(
+			new ItemMeli("MLA1",100.0),
+			new ItemMeli("MLA2",210.0),
+			new ItemMeli("MLA3",260.0),
+			new ItemMeli("MLA4",80.0),
+			new ItemMeli("MLA5",90.0));
 	
 	@Override
 	public ResBenefit calculate(List<String> products, Double amount) throws MeliException {
 		List<ItemMeli> itemsPrices = getObject(products);
 		if(!itemsPrices.isEmpty()) {
-			//VALIDATION IF THE PRODUCT HAS A HIGHER VALUE
-			itemsPrices = itemsPrices.stream().filter(e -> e.getPrice() <= amount).collect(Collectors.toList());
-			if(!itemsPrices.isEmpty()) {
-				List<String> items = itemsPrices.stream().map(e -> e.getId()).collect(Collectors.toList());
-				Double total = itemsPrices.stream().map(e -> e.getPrice()).reduce(0.0,Double::sum);
-				return new ResBenefit(items,total);
+			DecisionTree rta = this.getItems(itemsPrices, amount);
+			if(rta.getItems() != null || !rta.getItems().isEmpty()) {
+				return new ResBenefit(rta.getItems().stream()
+						.sorted(Comparator.comparing(ItemMeli::getId))
+						.map(e -> e.getId())
+						.collect(Collectors.toList()),rta.getSuma());
 			} else {
 				throw ErrorMeli.NO_RESPUESTA.throwError();
 			}
@@ -64,13 +68,24 @@ public class BenefitCalculationServiceImpl implements BenefitCalcutationService 
    
 	}
 	
-	private void getItems(List<ItemMeli> items) {
-		List<DecisionTree> decTree = new ArrayList<DecisionTree>();
-		for(ItemMeli item: items) {
+	public DecisionTree getItems(List<ItemMeli> items, Double top) {
+		items = items.stream().filter(e -> e.getPrice() <= top).collect(Collectors.toList());
+		DecisionTree decision = new DecisionTree(null,0.0);
+		items = items.stream().sorted((s1,s2)-> s2.getPrice().compareTo(s1.getPrice())).collect(Collectors.toList());
+		for(int i = 0; i < items.size(); i++ ) {
 			DecisionTree tree = new DecisionTree();
-			item.
+			tree.addToTree(items.get(i));
+			for(int j = items.size() - 1; j > i; j-- ) {
+				if( tree.getSuma() + items.get(j).getPrice() <= top ) {
+					tree.addToTree(items.get(j));
+				}
+			}
+			if(decision.getSuma() < tree.getSuma()) {
+				decision = tree;
+			}
 		}
-        
+		System.out.print(decision.toString());
+        return decision;
 	}
 	
 }
