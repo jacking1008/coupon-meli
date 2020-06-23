@@ -8,11 +8,15 @@ La solución fue planteada bajo las caracteristicas del ejercicio, y se propone 
 
 ### Ejecución del api
 En el siguiente enlace se encuentra el api-rest desplegado en AWS.
+```sh
+http://couponmeli-env-1.eba-8p9jm2i5.us-east-2.elasticbeanstalk.com/
+```
 http://couponmeli-env-1.eba-8p9jm2i5.us-east-2.elasticbeanstalk.com/
 #### Pruebas de ejecución
 Para su ejecución el api-rest cuenta con swagger para la documentación de los contratos utilizados, en el siguiente enlace se encuentra:
+```sh
 http://couponmeli-env-1.eba-8p9jm2i5.us-east-2.elasticbeanstalk.com/swagger-ui.html
-<br/>
+```
 En la siguiente imagen se muestra un ejemplo de ejecución:
 
 
@@ -31,9 +35,9 @@ Dentro del directorio del proyecto ejecutar estos comandos.
 $ mvn clean package
 $ cd target
 $ java -jar coupon-meli-0.0.1-SNAPSHOT.jar
-```
-NOTA: Para hacer esta ejecución se debe tener el jdk-11 y maven instalado, además de ello tener configurado sus variables de entorno.
 
+NOTA: Para hacer esta ejecución se debe tener el jdk-11 y maven instalado, además de ello tener configurado sus variables de entorno.
+```
 #### Docker
 Dentro del directorio del proyecto ejecutar estos comandos.
 ```sh
