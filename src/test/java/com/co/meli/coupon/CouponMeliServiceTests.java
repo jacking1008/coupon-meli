@@ -1,5 +1,6 @@
 package com.co.meli.coupon;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -13,17 +14,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.co.meli.coupon.dto.ItemMeli;
 import com.co.meli.coupon.dto.ReqBenefit;
 import com.co.meli.coupon.dto.ResBenefit;
 import com.co.meli.coupon.exception.MeliException;
 import com.co.meli.coupon.service.BenefitCalcutationService;
+import com.co.meli.coupon.service.impl.BenefitCalculationServiceImpl;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class CouponMeliServiceTests {
 
 	@Autowired private BenefitCalcutationService service;
+	@Autowired private BenefitCalculationServiceImpl serviceImpl;
 	private static ReqBenefit mock = new ReqBenefit(List.of("MLA811601010"),Double.valueOf(18000.0));
+	
+	@Test
+	public void fromMethodCalculation(){
+		List<ItemMeli> items = List.of(
+				new ItemMeli("MLA1",100.0),
+				new ItemMeli("MLA2",210.0),
+				new ItemMeli("MLA3",260.0),
+				new ItemMeli("MLA4",80.0),
+				new ItemMeli("MLA5",90.0));
+		assertEquals(480.0, serviceImpl.getItems(items, 500.0).getSuma());
+	}
 	
 	@Test
 	public void fromMethod() throws Exception {
@@ -51,5 +66,7 @@ public class CouponMeliServiceTests {
 		mock.setAmount(Double.valueOf(5000.0));
 		assertThrows(MeliException.class, () ->  service.calculate(mock.getItem_ids(), mock.getAmount()));
 	}
+	
+	
 	
 }

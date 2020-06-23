@@ -19,7 +19,6 @@ import com.co.meli.coupon.exception.ErrorMeli;
 import com.co.meli.coupon.exception.MeliException;
 import com.co.meli.coupon.items.DecisionTree;
 import com.co.meli.coupon.service.BenefitCalcutationService;
-import com.google.gson.Gson;
 
 @Service("BenefitCalculation")
 public class BenefitCalculationServiceImpl implements BenefitCalcutationService {
@@ -27,20 +26,13 @@ public class BenefitCalculationServiceImpl implements BenefitCalcutationService 
 	@Value("${meli.api.base}") public String urlBaseApiMeli;
 	public static final String urlItem = "items";
 	RestTemplate restClient = new RestTemplate();
-	Gson gson = new Gson();
-	List<ItemMeli> itemsTemp = List.of(
-			new ItemMeli("MLA1",100.0),
-			new ItemMeli("MLA2",210.0),
-			new ItemMeli("MLA3",260.0),
-			new ItemMeli("MLA4",80.0),
-			new ItemMeli("MLA5",90.0));
 	
 	@Override
 	public ResBenefit calculate(List<String> products, Double amount) throws MeliException {
 		List<ItemMeli> itemsPrices = getObject(products);
 		if(!itemsPrices.isEmpty()) {
 			DecisionTree rta = this.getItems(itemsPrices, amount);
-			if(rta.getItems() != null || !rta.getItems().isEmpty()) {
+			if(rta.getItems() != null && !rta.getItems().isEmpty()) {
 				return new ResBenefit(rta.getItems().stream()
 						.sorted(Comparator.comparing(ItemMeli::getId))
 						.map(e -> e.getId())
@@ -84,7 +76,7 @@ public class BenefitCalculationServiceImpl implements BenefitCalcutationService 
 				decision = tree;
 			}
 		}
-		System.out.print(decision.toString());
+		System.out.print((decision != null && decision.getItems() != null) ? decision.toString() : "");
         return decision;
 	}
 	
