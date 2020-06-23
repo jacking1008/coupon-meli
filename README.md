@@ -7,8 +7,10 @@ La solución fue planteada bajo las caracteristicas del ejercicio, y se propone 
 ![](assets/basic_arch.png)
 
 ### Ejecución del api
-En el siguiente enlace se encuentra el api-rest desplegado en AWS.
-[test.sh](http://couponmeli-env-1.eba-8p9jm2i5.us-east-2.elasticbeanstalk.com/) ####
+En el siguiente [enlace](http://couponmeli-env-1.eba-8p9jm2i5.us-east-2.elasticbeanstalk.com/) se encuentra el api-rest desplegado en AWS.
+```sh
+http://couponmeli-env-1.eba-8p9jm2i5.us-east-2.elasticbeanstalk.com/
+```
 #### Pruebas de ejecución
 Para su ejecución el api-rest cuenta con swagger para la documentación de los contratos utilizados, en el siguiente enlace se encuentra:
 ```sh
