@@ -55,8 +55,8 @@ NOTA: Para hacer esta ejecución se debe tener el jdk-11 y maven instalado, adem
 #### Docker
 Dentro del directorio del proyecto ejecutar estos comandos.
 ```sh
-$ docker build -t meliCoupon -f Dockerfile
-$ docker run -i -p 5000:5000 --name meliCoupon
+$ docker build -t melicoupon .
+$ docker run -i -p 5000:5000 --name coupon -d melicoupon
 
 NOTA: Para hacer esta ejecución se debe tener instalado y configurado Docker.
 ```
