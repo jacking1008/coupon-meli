@@ -30,6 +30,7 @@ Se realizó la prueba con el siguiente body:
 ![](assets/swagger_prueba.png)
 
 Además de ello se quiso realizar una prueba con los datos indicados en el test, este se cubre con las pruebas unitarias en JUnit.
+<br/>
 ![](assets/test_prueba.png)
 
 #### Coverage by Jacoco
