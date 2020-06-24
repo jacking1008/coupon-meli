@@ -4,7 +4,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /app
 EXPOSE 5000
 
-FROM maven:3.6.3-openjdk-15 AS build
+FROM maven:3.6.3-openjdk-11 AS build
 WORKDIR /app
 COPY . .
 
