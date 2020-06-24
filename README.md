@@ -34,6 +34,7 @@ Además de ello se quiso realizar una prueba con los datos indicados en el test,
 
 #### Coverage by Jacoco
 Para la validación del coverage obtenido en la revisión del proyecto se hizo uso del plugin de maven para la revisión de código. En la siguiente imagen se encuentra el resultante:
+<br/>
 ![](assets/coverage.png)
 
 ### Despliegue Local
