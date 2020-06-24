@@ -33,7 +33,8 @@ Además de ello se quiso realizar una prueba con los datos indicados en el test,
 ![](assets/test_prueba.png)
 
 #### Coverage by Jacoco
-El coverage obtenido en la revisión del proyecto es de __% para su validación se hizo uso del plugin de maven para la revisión de código. En la siguiente imagen se encuentra el resultante:
+Para la validación del coverage obtenido en la revisión del proyecto se hizo uso del plugin de maven para la revisión de código. En la siguiente imagen se encuentra el resultante:
+![](assets/coverage.png)
 
 ### Despliegue Local
 Para poder realizar el despliegue se debe contar con el acceso al código de este repositorio, para ello realizar la clonación o la descarga del código fuente.
