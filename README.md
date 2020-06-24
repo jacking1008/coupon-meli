@@ -29,6 +29,20 @@ Se realizó la prueba con el siguiente body:
 ```
 ![](assets/swagger_prueba.png)
 
+```sh
+La respuesta del servicio es de la siguiente manera:
+{
+  "code": 200,
+  "body": {
+    "item_ids": [
+      "MCO501668687",
+      "MCO509093160",
+      "MCO515420765"
+    ],
+    "total": 373700
+  }
+}
+```
 Además de ello se quiso realizar una prueba con los datos indicados en el test, este se cubre con las pruebas unitarias en JUnit.
 <br/>
 ![](assets/test_prueba.png)
